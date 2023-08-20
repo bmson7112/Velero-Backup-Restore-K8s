@@ -2674,7 +2674,7 @@ items:
     namespace: sonbm
 - apiVersion: v1
   data:
-    cloud: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkID0gQUtJQTJPSVo0U0dDUk1VUlBGU1MKYXdzX3NlY3JldF9hY2Nlc3Nfa2V5ID0gRGd3MG8xcnJtbFhlTmo4cEtaK3dFbWw2MUdTVXk3UllueUZDMSszZQo=
+    cloud: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkID0gbWluaW8KYXdzX3NlY3JldF9hY2Nlc3Nfa2V5ID0gbWluaW8xMjM=
   kind: Secret
   metadata:
     creationTimestamp: null
@@ -2693,20 +2693,12 @@ items:
     namespace: sonbm
   spec:
     config:
-      region: ap-southeast-2
+      region: minio
+      s3ForcePathStyle: "true"
+      s3Url: http://minio.sonbm.svc:9000
     default: true
     objectStorage:
-      bucket: velero-sonbm1
-    provider: aws
-- apiVersion: velero.io/v1
-  kind: VolumeSnapshotLocation
-  metadata:
-    creationTimestamp: null
-    labels:
-      component: velero
-    name: default
-    namespace: sonbm
-  spec:
+      bucket: velero
     provider: aws
 - apiVersion: apps/v1
   kind: Deployment
@@ -2756,7 +2748,7 @@ items:
             value: /credentials/cloud
           - name: ALIBABA_CLOUD_CREDENTIALS_FILE
             value: /credentials/cloud
-          image: minhson7112/velero:main
+          image: velero/velero:v1.11.1
           imagePullPolicy: IfNotPresent
           name: velero
           ports:
@@ -2777,7 +2769,7 @@ items:
           - mountPath: /credentials
             name: cloud-credentials
         initContainers:
-        - image: velero/velero-plugin-for-aws:v1.6.0
+        - image: velero/velero-plugin-for-aws:v1.2.1
           imagePullPolicy: IfNotPresent
           name: velero-velero-plugin-for-aws
           resources: {}
@@ -2839,7 +2831,7 @@ items:
             value: /credentials/cloud
           - name: ALIBABA_CLOUD_CREDENTIALS_FILE
             value: /credentials/cloud
-          image: minhson7112/velero:main
+          image: velero/velero:v1.11.1
           imagePullPolicy: IfNotPresent
           name: node-agent
           resources:
@@ -2871,4 +2863,3 @@ items:
             secretName: cloud-credentials
     updateStrategy: {}
 kind: List
-

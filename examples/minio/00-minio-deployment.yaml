@@ -13,16 +13,10 @@
 # limitations under the License.
 
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: velero
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: velero
+  namespace: sonbm
   name: minio
   labels:
     component: minio
@@ -67,7 +61,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: velero
+  namespace: sonbm
   name: minio
   labels:
     component: minio
@@ -87,7 +81,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: velero
+  namespace: sonbm
   name: minio-setup
   labels:
     component: minio
