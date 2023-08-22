@@ -29,6 +29,9 @@ type Metadata struct {
 type BackupSpec struct {
 	// +optional
 	Metadata `json:"metadata,omitempty"`
+
+	// IncludeClusterId as the id of the cluster that needs to be backed up
+	IncludeClusterId []string `json:"includeClusterIp,omitempty`
 	// IncludedNamespaces is a slice of namespace names to include objects
 	// from. If empty, all namespaces are included.
 	// +optional

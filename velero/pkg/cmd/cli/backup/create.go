@@ -85,6 +85,7 @@ type CreateOptions struct {
 	SnapshotMoveData                flag.OptionalBool
 	DataMover                       string
 	DefaultVolumesToFsBackup        flag.OptionalBool
+	IncludeClusterId                flag.StringArray
 	IncludeNamespaces               flag.StringArray
 	ExcludeNamespaces               flag.StringArray
 	IncludeResources                flag.StringArray
@@ -118,6 +119,7 @@ func NewCreateOptions() *CreateOptions {
 
 func (o *CreateOptions) BindFlags(flags *pflag.FlagSet) {
 	flags.DurationVar(&o.TTL, "ttl", o.TTL, "How long before the backup can be garbage collected.")
+	flags.Var(&o.IncludeClusterId, "include-clusterid", "Id of the backed up cluster ")
 	flags.Var(&o.IncludeNamespaces, "include-namespaces", "Namespaces to include in the backup (use '*' for all namespaces).")
 	flags.Var(&o.ExcludeNamespaces, "exclude-namespaces", "Namespaces to exclude from the backup.")
 	flags.Var(&o.IncludeResources, "include-resources", "Resources to include in the backup, formatted as resource.group, such as storageclasses.storage.k8s.io (use '*' for all resources). Cannot work with include-cluster-scoped-resources, exclude-cluster-scoped-resources, include-namespace-scoped-resources and exclude-namespace-scoped-resources.")
@@ -356,6 +358,7 @@ func (o *CreateOptions) BuildBackup(namespace string) (*velerov1api.Backup, erro
 			FromSchedule(schedule)
 	} else {
 		backupBuilder = builder.ForBackup(namespace, o.Name).
+			IncludeClusterId(o.IncludeClusterId...).
 			IncludedNamespaces(o.IncludeNamespaces...).
 			ExcludedNamespaces(o.ExcludeNamespaces...).
 			IncludedResources(o.IncludeResources...).

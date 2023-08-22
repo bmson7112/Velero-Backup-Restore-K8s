@@ -132,6 +132,12 @@ func (b *BackupBuilder) FromSchedule(schedule *velerov1api.Schedule) *BackupBuil
 	return b
 }
 
+// IncludeClusterId set the  sets the Backup's included Cluster Id
+func (b *BackupBuilder) IncludeClusterId(clusterid ...string) *BackupBuilder {
+	b.object.Spec.IncludeClusterId = clusterid
+	return b
+}
+
 // IncludedNamespaces sets the Backup's included namespaces.
 func (b *BackupBuilder) IncludedNamespaces(namespaces ...string) *BackupBuilder {
 	b.object.Spec.IncludedNamespaces = namespaces
